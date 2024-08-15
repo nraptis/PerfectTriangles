@@ -1,0 +1,266 @@
+// swift-interface-format-version: 1.0
+// swift-compiler-version: Apple Swift version 5.10 (swiftlang-5.10.0.13 clang-1500.3.9.4)
+// swift-module-flags: -target arm64-apple-ios17.5 -enable-objc-interop -enable-library-evolution -swift-version 5 -enforce-exclusivity=checked -O -enable-bare-slash-regex -module-name RaptisTriangultion
+import Foundation
+import OSLog
+@_exported import RaptisTriangultion
+import Swift
+import _Concurrency
+import _StringProcessing
+import _SwiftConcurrencyShims
+import os
+import os.signpost
+import simd
+@_hasMissingDesignatedInitializers public class RingLineSegment : RaptisTriangultion.PrecomputedLineSegment {
+  public var isIllegal: Swift.Bool
+  public var isBucketed: Swift.Bool
+  public var x1: Swift.Float
+  public var y1: Swift.Float
+  public var x2: Swift.Float
+  public var y2: Swift.Float
+  public var centerX: Swift.Float
+  public var centerY: Swift.Float
+  public var directionX: Swift.Float
+  public var directionY: Swift.Float
+  public var normalX: Swift.Float
+  public var normalY: Swift.Float
+  public var lengthSquared: Swift.Float
+  public var length: Swift.Float
+  public var directionAngle: Swift.Float
+  public var normalAngle: Swift.Float
+  @objc deinit
+}
+@_hasMissingDesignatedInitializers public class PolyMeshPartsFactory {
+  public static let shared: RaptisTriangultion.PolyMeshPartsFactory
+  public func depositRing(_ ring: RaptisTriangultion.Ring)
+  public func depositRingContent(_ ring: RaptisTriangultion.Ring)
+  public func withdrawRing(triangleData: RaptisTriangultion.PolyMeshTriangleData) -> RaptisTriangultion.Ring
+  public func depositRingPoint(_ ringPoint: RaptisTriangultion.RingPoint)
+  public func withdrawRingPoint() -> RaptisTriangultion.RingPoint
+  @objc deinit
+}
+@_hasMissingDesignatedInitializers public class RingPoint {
+  public var x: Swift.Float
+  public var y: Swift.Float
+  @objc deinit
+}
+@_hasMissingDesignatedInitializers public class PolyMeshConstants {
+  public static let splineThresholdDistance: Swift.Float
+  @objc deinit
+}
+public class PolyMeshTriangleData {
+  public init()
+  public struct Triangle {
+    public let index1: Swift.UInt32
+    public let index2: Swift.UInt32
+    public let index3: Swift.UInt32
+  }
+  public struct VertexNode {
+    public let x: Swift.Float
+    public let y: Swift.Float
+    public var isEdge: Swift.Bool
+  }
+  public var vertices: [RaptisTriangultion.PolyMeshTriangleData.VertexNode] {
+    get
+  }
+  public var vertexCount: Swift.Int {
+    get
+  }
+  public var triangles: [RaptisTriangultion.PolyMeshTriangleData.Triangle] {
+    get
+  }
+  public var triangleCount: Swift.Int {
+    get
+  }
+  public func markEdge(x: Swift.Float, y: Swift.Float)
+  public func add(x1: Swift.Float, y1: Swift.Float, x2: Swift.Float, y2: Swift.Float, x3: Swift.Float, y3: Swift.Float)
+  public func reset()
+  @objc deinit
+}
+public struct Triangle {
+  public let x1: CoreFoundation.CGFloat
+  public let y1: CoreFoundation.CGFloat
+  public let x2: CoreFoundation.CGFloat
+  public let y2: CoreFoundation.CGFloat
+  public let x3: CoreFoundation.CGFloat
+  public let y3: CoreFoundation.CGFloat
+}
+extension RaptisTriangultion.Ring {
+  public func containsDuplicatePointsOuter() -> Swift.Bool
+  public func resolveOneDuplicatePointOuter()
+}
+extension RaptisTriangultion.Ring {
+  public func meshifyWithFastAlgorithm()
+}
+extension RaptisTriangultion.Ring {
+  public func isCounterClockwiseRingPoints() -> Swift.Bool
+  public func isCounterClockwiseProbePoints() -> Swift.Bool
+  public func resolveCounterClockwiseRingPoints()
+}
+@_hasMissingDesignatedInitializers public class Ring {
+  public var ringPoints: [RaptisTriangultion.RingPoint]
+  public var ringPointCount: Swift.Int
+  public var ringLineSegments: [RaptisTriangultion.RingLineSegment]
+  public var ringLineSegmentCount: Swift.Int
+  public var isBroken: Swift.Bool
+  public func addPointsBegin(depth: Swift.UInt32)
+  public func addPoint(_ x: Swift.Float, _ y: Swift.Float)
+  public func attemptToBeginBuildAndCheckIfBroken(needsPointInsidePolygonBucket: Swift.Bool, needsLineSegmentBucket: Swift.Bool) -> Swift.Bool
+  public func meshifyRecursively(needsSafetyCheckA: Swift.Bool, needsSafetyCheckB: Swift.Bool)
+  @objc deinit
+}
+public struct TriangulatorMath {
+  public struct Point : Swift.CustomStringConvertible {
+    public var x: Swift.Float
+    public var y: Swift.Float
+    public init(x: Swift.Float, y: Swift.Float)
+    public var description: Swift.String {
+      get
+    }
+    public static func + (left: RaptisTriangultion.TriangulatorMath.Point, right: RaptisTriangultion.TriangulatorMath.Point) -> RaptisTriangultion.TriangulatorMath.Point
+    public static func + (left: RaptisTriangultion.TriangulatorMath.Point, right: RaptisTriangultion.TriangulatorMath.Vector) -> RaptisTriangultion.TriangulatorMath.Point
+    public static func - (left: RaptisTriangultion.TriangulatorMath.Point, right: RaptisTriangultion.TriangulatorMath.Point) -> RaptisTriangultion.TriangulatorMath.Point
+    public static func - (left: RaptisTriangultion.TriangulatorMath.Point, right: RaptisTriangultion.TriangulatorMath.Vector) -> RaptisTriangultion.TriangulatorMath.Point
+    public static let zero: RaptisTriangultion.TriangulatorMath.Point
+    public var float2: Swift.SIMD2<Swift.Float> {
+      get
+    }
+    public var cgPoint: CoreFoundation.CGPoint {
+      get
+    }
+    public var vector: RaptisTriangultion.TriangulatorMath.Vector {
+      get
+    }
+    public func offset(x: Swift.Float, y: Swift.Float) -> RaptisTriangultion.TriangulatorMath.Point
+    public func distanceSquaredTo(_ point: RaptisTriangultion.TriangulatorMath.Point) -> Swift.Float
+    public func distanceSquaredTo(_ x: Swift.Float, _ y: Swift.Float) -> Swift.Float
+    public func distanceTo(_ point: RaptisTriangultion.TriangulatorMath.Point) -> Swift.Float
+    public func distanceTo(_ x: Swift.Float, _ y: Swift.Float) -> Swift.Float
+    public var lengthSquared: Swift.Float {
+      get
+    }
+    public var length: Swift.Float {
+      get
+    }
+    public mutating func normalize()
+  }
+  public struct Vector : Swift.CustomStringConvertible {
+    public var x: Swift.Float
+    public var y: Swift.Float
+    public init(x: Swift.Float, y: Swift.Float)
+    public var description: Swift.String {
+      get
+    }
+    public static let zero: RaptisTriangultion.TriangulatorMath.Vector
+    public var float2: Swift.SIMD2<Swift.Float> {
+      get
+    }
+    public var cgPoint: CoreFoundation.CGPoint {
+      get
+    }
+    public var point: RaptisTriangultion.TriangulatorMath.Point {
+      get
+    }
+    public var angle: Swift.Float {
+      get
+    }
+    public var normal: RaptisTriangultion.TriangulatorMath.Vector {
+      get
+    }
+    public var lengthSquared: Swift.Float {
+      get
+    }
+    public var length: Swift.Float {
+      get
+    }
+    public mutating func normalize()
+    public static func * (left: RaptisTriangultion.TriangulatorMath.Vector, right: Swift.Float) -> RaptisTriangultion.TriangulatorMath.Vector
+    public static func / (left: RaptisTriangultion.TriangulatorMath.Vector, right: Swift.Float) -> RaptisTriangultion.TriangulatorMath.Vector
+    public static func * (left: RaptisTriangultion.TriangulatorMath.Vector, right: RaptisTriangultion.TriangulatorMath.Vector) -> RaptisTriangultion.TriangulatorMath.Vector
+    public static func + (left: RaptisTriangultion.TriangulatorMath.Vector, right: RaptisTriangultion.TriangulatorMath.Vector) -> RaptisTriangultion.TriangulatorMath.Vector
+    public static func - (left: RaptisTriangultion.TriangulatorMath.Vector, right: RaptisTriangultion.TriangulatorMath.Vector) -> RaptisTriangultion.TriangulatorMath.Vector
+    public static func + (left: RaptisTriangultion.TriangulatorMath.Vector, right: RaptisTriangultion.TriangulatorMath.Vector) -> RaptisTriangultion.TriangulatorMath.Point
+    public func dot(_ vector: RaptisTriangultion.TriangulatorMath.Vector) -> Swift.Float
+    public func cross(_ vector: RaptisTriangultion.TriangulatorMath.Vector) -> Swift.Float
+  }
+  public static func angleToVector(radians: Swift.Float) -> RaptisTriangultion.TriangulatorMath.Point
+  public static func face(target: RaptisTriangultion.TriangulatorMath.Point) -> Swift.Float
+  public static func rotatePoint(point: RaptisTriangultion.TriangulatorMath.Point, radians: Swift.Float) -> RaptisTriangultion.TriangulatorMath.Point
+  public static func transformPoint(point: RaptisTriangultion.TriangulatorMath.Point, scale: Swift.Float, rotation: Swift.Float) -> RaptisTriangultion.TriangulatorMath.Point
+  public static func transformPoint(point: RaptisTriangultion.TriangulatorMath.Point, translation: RaptisTriangultion.TriangulatorMath.Point, scale: Swift.Float, rotation: Swift.Float) -> RaptisTriangultion.TriangulatorMath.Point
+  public static func untransformPoint(point: RaptisTriangultion.TriangulatorMath.Point, scale: Swift.Float, rotation: Swift.Float) -> RaptisTriangultion.TriangulatorMath.Point
+  public static func untransformPoint(point: RaptisTriangultion.TriangulatorMath.Point, translation: RaptisTriangultion.TriangulatorMath.Point, scale: Swift.Float, rotation: Swift.Float) -> RaptisTriangultion.TriangulatorMath.Point
+}
+public protocol PrecomputedLineSegment : RaptisTriangultion.LineSegment {
+  var centerX: Swift.Float { get set }
+  var centerY: Swift.Float { get set }
+  var directionX: Swift.Float { get set }
+  var directionY: Swift.Float { get set }
+  var normalX: Swift.Float { get set }
+  var normalY: Swift.Float { get set }
+  var lengthSquared: Swift.Float { get set }
+  var length: Swift.Float { get set }
+  var directionAngle: Swift.Float { get set }
+  var normalAngle: Swift.Float { get set }
+  var isIllegal: Swift.Bool { get set }
+  func precompute()
+}
+extension RaptisTriangultion.PrecomputedLineSegment {
+  public var p1: Self.Point {
+    get
+    set
+  }
+  public var p2: Self.Point {
+    get
+    set
+  }
+  public var center: Self.Point {
+    get
+    set
+  }
+  public func closestPoint(_ point: Self.Point) -> Self.Point
+  public func closestPoint(_ x: Swift.Float, _ y: Swift.Float) -> Self.Point
+  public func closestPoint(_ point: Self.Point, _ targetX: inout Swift.Float, _ targetY: inout Swift.Float)
+  public func closestPoint(_ x: Swift.Float, _ y: Swift.Float, _ targetX: inout Swift.Float, _ targetY: inout Swift.Float)
+  public func distanceSquaredToClosestPoint(_ x: Swift.Float, _ y: Swift.Float) -> Swift.Float
+  public func distanceSquaredToRingPoint(_ ringPoint: RaptisTriangultion.RingPoint) -> Swift.Float
+  public func distanceSquaredToPoint(_ point: Self.Point) -> Swift.Float
+  public func closestPointIsOnSegment(_ point: Self.Point) -> Swift.Bool
+  public func distanceSquaredToLineSegment(_ lineSegment: any RaptisTriangultion.PrecomputedLineSegment) -> Swift.Float
+  public func precompute()
+  public func writeTo(_ precomputedLineSegment: any RaptisTriangultion.PrecomputedLineSegment)
+  public func readFrom(_ precomputedLineSegment: any RaptisTriangultion.PrecomputedLineSegment)
+}
+public class AnyPrecomputedLineSegment : RaptisTriangultion.PrecomputedLineSegment {
+  public init()
+  public var x1: Swift.Float
+  public var y1: Swift.Float
+  public var x2: Swift.Float
+  public var y2: Swift.Float
+  public var isIllegal: Swift.Bool
+  public var isTagged: Swift.Bool
+  public var centerX: Swift.Float
+  public var centerY: Swift.Float
+  public var directionX: Swift.Float
+  public var directionY: Swift.Float
+  public var normalX: Swift.Float
+  public var normalY: Swift.Float
+  public var lengthSquared: Swift.Float
+  public var length: Swift.Float
+  public var directionAngle: Swift.Float
+  public var normalAngle: Swift.Float
+  @objc deinit
+}
+public protocol LineSegment : AnyObject {
+  typealias Point = RaptisTriangultion.TriangulatorMath.Point
+  typealias Vector = RaptisTriangultion.TriangulatorMath.Vector
+  var x1: Swift.Float { get set }
+  var y1: Swift.Float { get set }
+  var x2: Swift.Float { get set }
+  var y2: Swift.Float { get set }
+}
+@_hasMissingDesignatedInitializers final public class PerfectTriangulator {
+  public static let shared: RaptisTriangultion.PerfectTriangulator
+  final public func triangulate(points: [CoreFoundation.CGPoint]) -> [RaptisTriangultion.Triangle]
+  @objc deinit
+}

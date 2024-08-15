@@ -1,0 +1,6 @@
+framework module RaptisTriangultion {
+  umbrella header "RaptisTriangultion.h"
+  export *
+
+  module * { export * }
+}
